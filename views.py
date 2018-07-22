@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from rblog.models import Post, Comment
 from rblog.forms import PostForm, CommentForm
 from django.urls import reverse_lazy
@@ -43,3 +44,21 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 	def get_queryset(self):
 		return Post.objects.filter(published_date__isnull=True).order_by('created_date')
+
+
+#################################
+#################################
+
+@login_required
+def add_coment_to_post(request, pk):
+	post = get_object_or_404(Post, pk=pk)
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.post = post
+			coment.save()
+			return redirect('post_detail', pk=post.pk)
+	else:
+		form = CommentForm()
+	return render(request, 'rblog/comment_form.html', {'form':form})
