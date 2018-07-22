@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^post/(?P<pk>\d+)$', views.PostDetailView.as_view(), name='post_detail'),
     url(r'^post/new/$', views.CreatePostView.as_view(), name='post_new'),
     url(r'^post/(?P<pk>\d+)/edit/$', views.PostUpdateView.as_view(), name='post_edit'),
-    
+    url(r'^post/(?P<pk>\d+)/remove/$', views.PostDeleteViews.as_view(), name='post_remove'),
 ]
